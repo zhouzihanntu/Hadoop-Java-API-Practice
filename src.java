@@ -45,5 +45,16 @@ public class java1 {
 		fs.copyToLocalFile(false, remote, loc);
 		System.out.println("copy data :" + conf.get("fs.default.name"));
 	}
+	
+	//list files
+	private static void list(Configuration conf) throws Exception{
+		FileSystem fs=FileSystem.get(new URI("hdfs://192.168.102.132:9000/"), conf);
+		Path listFile = new Path("/user/FileSystemTest");
+		FileStatus files[] = fs.listStatus(listFile);
+		for(int i=0; i<files.length;++i){
+			System.out.println(files[i].getPath().toString());
+		}
+		fs.close();
+	}
 
 }
