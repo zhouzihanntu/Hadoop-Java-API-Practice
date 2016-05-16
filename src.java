@@ -13,11 +13,14 @@ public class java1 {
 		Configuration conf = new Configuration();
 		mkDir(conf);
 		putData(conf);
+		getData(conf);
+		list(conf);
+		remove(conf);
 	}
 	
 	//Create Directory in hdfs
 	private static void mkDir(Configuration conf) throws Exception {
-		FileSystem fs=FileSystem.get(new URI("hdfs://192.168.102.132:9000/"), conf);
+		FileSystem fs=FileSystem.get(new URI("hdfs://192.168.102.132:9000/"), conf);//define hdfs path
 		Path dir = new Path("/user/FileSystemTest");
 		boolean result = fs.mkdirs(dir);
 		System.out.println("make dir :" + result);
@@ -46,7 +49,7 @@ public class java1 {
 		System.out.println("copy data :" + conf.get("fs.default.name"));
 	}
 	
-	//list files
+	//List files
 	private static void list(Configuration conf) throws Exception{
 		FileSystem fs=FileSystem.get(new URI("hdfs://192.168.102.132:9000/"), conf);
 		Path listFile = new Path("/user/FileSystemTest");
@@ -55,6 +58,14 @@ public class java1 {
 			System.out.println(files[i].getPath().toString());
 		}
 		fs.close();
+	}
+	
+	//Delete directory
+	private static void remove(Configuration conf) throws Exception{
+		FileSystem fs=FileSystem.get(new URI("hdfs://192.168.102.132:9000/"),conf);
+		Path deleteFile = new Path("/user/FileSystemTest");
+		boolean delFile = fs.delete(deleteFile,true);//递归删除
+		System.out.println("Delete?" + delFile);
 	}
 
 }
